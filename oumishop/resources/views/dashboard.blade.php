@@ -40,7 +40,7 @@
     
     .product-image {
         width: 100%;
-        height: 250px;
+        height: 200px;
         object-fit: cover;
         transition: transform 0.3s ease;
     }
@@ -50,32 +50,32 @@
     }
     
     .product-info {
-        padding: 1.5rem;
+        padding: 1rem;
         overflow: hidden;
     }
     
     .product-name {
         font-family: 'Playfair Display', serif;
-        font-size: 1.25rem;
+        font-size: 1.1rem;
         font-weight: 600;
         color: #1a1a1a;
-        margin-bottom: 0.5rem;
-        line-height: 1.3;
+        margin-bottom: 0.3rem;
+        line-height: 1.2;
     }
     
     .product-price {
         font-family: 'Montserrat', sans-serif;
-        font-size: 1.5rem;
+        font-size: 1.3rem;
         font-weight: 700;
         color: #d4af37;
-        margin-bottom: 0.5rem;
+        margin-bottom: 0.3rem;
     }
     
     .product-stock {
         font-family: 'Montserrat', sans-serif;
         font-size: 0.875rem;
         color: #666;
-        margin-bottom: 1rem;
+        margin-bottom: 0.5rem;
     }
     
     .btn-luxury {
@@ -192,6 +192,115 @@
         background-color: #d4af37;
         border-color: #d4af37;
         color: white;
+    }
+
+    /* Responsive mobile pour afficher 2 produits par ligne */
+    @media (max-width: 768px) {
+        .grid {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 0.75rem !important;
+        }
+        
+        .product-card {
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: auto;
+        }
+        
+        .product-image {
+            height: 140px !important;
+        }
+        
+        .product-info {
+            padding: 0.5rem !important;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .product-name {
+            font-size: 0.875rem !important;
+            margin-bottom: 0.15rem !important;
+            line-height: 1.1 !important;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+        
+        .product-price {
+            font-size: 1rem !important;
+            margin-bottom: 0.15rem !important;
+        }
+        
+        .product-stock {
+            font-size: 0.75rem !important;
+            margin-bottom: 0.3rem !important;
+            flex-grow: 1;
+        }
+        
+        .btn-group-luxury {
+            flex-direction: column;
+            gap: 0.15rem !important;
+            margin-top: auto !important;
+        }
+        
+        .btn-group-luxury .btn-luxury,
+        .btn-group-luxury .btn-danger-luxury {
+            font-size: 0.65rem !important;
+            padding: 0.3rem 0.4rem !important;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            min-height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .photo-indicator {
+            font-size: 0.6rem !important;
+            padding: 0.1rem 0.25rem !important;
+        }
+    }
+
+    /* Pour très petits écrans, garder 2 colonnes mais plus compact */
+    @media (max-width: 480px) {
+        .grid {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 0.5rem !important;
+        }
+        
+        .product-image {
+            height: 120px !important;
+        }
+        
+        .product-info {
+            padding: 0.4rem !important;
+        }
+        
+        .product-name {
+            font-size: 0.8rem !important;
+            margin-bottom: 0.1rem !important;
+        }
+        
+        .product-price {
+            font-size: 0.9rem !important;
+            margin-bottom: 0.1rem !important;
+        }
+        
+        .product-stock {
+            font-size: 0.7rem !important;
+            margin-bottom: 0.25rem !important;
+        }
+        
+        .btn-group-luxury .btn-luxury,
+        .btn-group-luxury .btn-danger-luxury {
+            font-size: 0.6rem !important;
+            padding: 0.25rem 0.3rem !important;
+            min-height: 26px;
+        }
     }
 </style>
 

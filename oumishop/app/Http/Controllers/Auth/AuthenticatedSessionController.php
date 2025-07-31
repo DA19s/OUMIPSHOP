@@ -28,7 +28,13 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         $request->session()->regenerate();
-                    
+
+        $user = User::where('email', $request->email)->first();
+        if ($user->code != null) {
+            $user->delete();
+            return redirect()->route('login')->with('error', 'Votre compte a été supprimé. Veuillez contacter recréer un compte et bien soumettre le code de vérification.');
+        }
+
         $user = Auth::user();
         if ($user->role === 'admin') {
             return redirect()->intended(route('dashboard', absolute: false));

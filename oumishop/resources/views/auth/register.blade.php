@@ -1,6 +1,8 @@
 <?php
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\VartController;
+use App\Http\Controllers\Auth\RegisterController;
+
 
 $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
 ?>
@@ -22,7 +24,7 @@ $code = str_pad(random_int(0, 999999), 6, '0', STR_PAD_LEFT);
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-black">
             <div>
                 <a href="/">
                     <div class="w-20 h-20 flex items-center justify-center bg-gold rounded-full shadow-lg">

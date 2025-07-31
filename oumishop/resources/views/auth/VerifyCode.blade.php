@@ -16,7 +16,7 @@
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="font-sans text-gray-900 antialiased">
-        <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+    <div class="min-h-screen flex flex-col sm:justify-center items-center pt-6 sm:pt-0 bg-black">            <div>
             <div>
                 <a href="/">
                     <div class="w-20 h-20 flex items-center justify-center bg-gold rounded-full shadow-lg">
@@ -38,11 +38,17 @@
                     </div>
                 @endif
 
+                @if(session('success'))
+                    <div class="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded">
+                        {{ session('success') }}
+                    </div>
+                @endif
+
                 <div class="text-center mb-6">
-                    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">
+                    <h2 class="text-2xl font-bold text-gray-900">
                         Vérification du code
                     </h2>
-                    <p class="text-gray-700 dark:text-gray-300 mt-2 font-medium">
+                    <p class="text-gray-800 mt-2 font-medium">
                         Veuillez saisir le code de vérification envoyé à votre adresse email.
                     </p>
                 </div>
@@ -52,7 +58,7 @@
 
                     <!-- Code -->
                     <div>
-                        <x-input-label for="code" :value="__('Code de vérification')" class="text-gray-800 font-semibold text-base" />
+                        <x-input-label for="code" :value="__('Code de vérification')" class="text-gray-900 font-semibold text-base" />
                         <x-text-input id="code" class="block mt-1 w-full border-2 border-gray-200 focus:border-gold focus:ring-gold rounded-lg text-gray-900 font-medium text-center text-lg tracking-widest" type="text" name="code" :value="old('code')" required autofocus autocomplete="code" placeholder="Entrez le code à 6 chiffres" maxlength="6" />
                         <x-input-error :messages="$errors->get('code')" class="mt-2" />
                     </div>
@@ -64,12 +70,23 @@
                     </div>
                 </form>
 
-                <div class="mt-6 text-center">
-                    <p class="text-sm text-gray-700 dark:text-gray-300 font-medium">
-                        Vous n'avez pas reçu le code ? 
+                <div class="mt-6 text-center space-y-3">
+                    <form method="POST" action="{{ route('resend-code') }}" class="inline">
+                        @csrf
+                        <button type="submit" class="w-full bg-gradient-to-r from-yellow-500 to-yellow-600 hover:from-yellow-600 hover:to-yellow-700 text-gray-900 font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-300 transform hover:scale-105 mb-3">
+                            Renvoyer le code de vérification
+                        </button>
+                    </form>
+                    
+                    <p class="text-sm text-gray-800 font-medium">
+                        Vous voulez utiliser une autre adresse email ? 
                         <a href="{{ route('register') }}" class="text-gold hover:text-yellow-500 font-semibold underline">
                             Créer un nouveau compte
                         </a>
+                    </p>
+                    
+                    <p class="text-xs text-gray-700 mt-2">
+                        ⏰ Le code expire automatiquement après 15 minutes pour votre sécurité
                     </p>
                 </div>
             </div>
@@ -185,6 +202,13 @@
                 background: linear-gradient(135deg, #fee2e2 0%, #fecaca 100%);
                 border: 2px solid #ef4444;
                 color: #dc2626;
+                font-weight: 600;
+            }
+
+            .bg-green-100 {
+                background: linear-gradient(135deg, #dcfce7 0%, #bbf7d0 100%);
+                border: 2px solid #22c55e;
+                color: #15803d;
                 font-weight: 600;
             }
         </style>

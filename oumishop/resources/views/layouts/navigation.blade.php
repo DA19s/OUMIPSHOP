@@ -131,11 +131,14 @@
         color: #f5f5f5;
         font-family: 'Montserrat', sans-serif;
         font-weight: 600;
-        padding: 1rem;
+        padding: 1.5rem 1rem;
         border-bottom: 1px solid rgba(212, 175, 55, 0.2);
         transition: all 0.3s ease;
         text-transform: uppercase;
         letter-spacing: 1px;
+        font-size: 1rem;
+        display: block;
+        text-decoration: none;
     }
     
     .luxury-navbar .mobile-nav-link:hover {
@@ -191,13 +194,44 @@ function toggleDropdown() {
     dropdown.classList.toggle('show');
 }
 
-// Fermer le dropdown quand on clique ailleurs
+// Fonction pour les menus mobiles
+function toggleMobileNav() {
+    const navOverlay = document.getElementById('mobileNavOverlay');
+    const userOverlay = document.getElementById('mobileUserOverlay');
+    
+    // Fermer l'autre menu s'il est ouvert
+    userOverlay.classList.add('hidden');
+    
+    // Toggle le menu navigation
+    navOverlay.classList.toggle('hidden');
+}
+
+function toggleMobileUser() {
+    const navOverlay = document.getElementById('mobileNavOverlay');
+    const userOverlay = document.getElementById('mobileUserOverlay');
+    
+    // Fermer l'autre menu s'il est ouvert
+    navOverlay.classList.add('hidden');
+    
+    // Toggle le menu utilisateur
+    userOverlay.classList.toggle('hidden');
+}
+
+// Fermer les menus quand on clique sur l'overlay
 document.addEventListener('click', function(event) {
     const dropdown = document.getElementById('userDropdown');
     const button = event.target.closest('.user-dropdown');
     
     if (!button && dropdown.classList.contains('show')) {
         dropdown.classList.remove('show');
+    }
+    
+    // Fermer les overlays mobiles quand on clique sur le fond
+    if (event.target.id === 'mobileNavOverlay') {
+        document.getElementById('mobileNavOverlay').classList.add('hidden');
+    }
+    if (event.target.id === 'mobileUserOverlay') {
+        document.getElementById('mobileUserOverlay').classList.add('hidden');
     }
 });
 </script>
@@ -277,58 +311,79 @@ document.addEventListener('click', function(event) {
                 </div>
             </div>
 
-            <!-- Hamburger -->
-            <div class="-me-2 flex items-center sm:hidden">
-                <button @click="open = ! open" class="hamburger-btn inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition duration-150 ease-in-out">
+            <!-- Mobile Navigation Buttons -->
+            <div class="flex items-center space-x-2 sm:hidden">
+                <!-- Bouton Navigation -->
+                <button onclick="toggleMobileNav()" class="hamburger-btn inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition duration-150 ease-in-out">
                     <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-                        <path :class="{'hidden': open, 'inline-flex': ! open }" class="inline-flex" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
-                        <path :class="{'hidden': ! open, 'inline-flex': open }" class="hidden" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+                <!-- Bouton Utilisateur -->
+                <button onclick="toggleMobileUser()" class="hamburger-btn inline-flex items-center justify-center p-2 rounded-md focus:outline-none transition duration-150 ease-in-out">
+                    <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
                     </svg>
                 </button>
             </div>
         </div>
     </div>
 
-    <!-- Responsive Navigation Menu -->
-    <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden mobile-menu">
-        <div class="pt-2 pb-3 space-y-1">
-            <a href="{{ route('dashboard') }}" 
-               class="mobile-nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
-                {{ __('Collection') }}
-            </a>
-            
-            <a href="{{ route('products.create') }}" 
-               class="mobile-nav-link {{ request()->routeIs('products.create') ? 'active' : '' }}">
-                {{ __('Ajouter un produit') }}
-            </a>
-            
-            <a href="{{ route('historique.index') }}" 
-               class="mobile-nav-link {{ request()->routeIs('historique.index') ? 'active' : '' }}">
-                {{ __('Historique') }}
-            </a>
-        </div>
-
-        <!-- Responsive Settings Options -->
-        <div class="user-info">
-            <div class="px-4">
-                <div class="user-name">{{ Auth::user()->name }}</div>
-                <div class="user-email">{{ Auth::user()->email }}</div>
-            </div>
-
-            <div class="mt-3 space-y-1">
-                <a href="{{ route('profile.edit') }}" class="mobile-nav-link">
-                    {{ __('Mon Profil') }}
+    <!-- Menu Navigation Mobile Overlay -->
+    <div id="mobileNavOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden sm:hidden">
+        <div class="fixed top-16 left-0 right-0 mobile-menu max-h-96 overflow-y-auto">
+            <div class="pt-0 pb-0">
+                <a href="{{ route('dashboard') }}" 
+                   class="mobile-nav-link {{ request()->routeIs('dashboard') ? 'active' : '' }}">
+                    {{ __('COLLECTION') }}
                 </a>
+                
+                <a href="{{ route('products.create') }}" 
+                   class="mobile-nav-link {{ request()->routeIs('products.create') ? 'active' : '' }}">
+                    {{ __('AJOUTER PRODUIT') }}
+                </a>
+                
+                <a href="{{ route('order.index') }}" 
+                   class="mobile-nav-link {{ request()->routeIs('order.index') ? 'active' : '' }}">
+                    {{ __('GESTION COMMANDES') }}
+                </a>
+                
+                <a href="{{ route('historique.index') }}" 
+                   class="mobile-nav-link {{ request()->routeIs('historique.index') ? 'active' : '' }}">
+                    {{ __('HISTORIQUE') }}
+                </a>
+            </div>
+        </div>
+    </div>
 
-                <!-- Authentication -->
-                <form method="POST" action="{{ route('logout') }}">
-                    @csrf
-                    <a href="{{ route('logout') }}" 
-                       class="mobile-nav-link"
-                       onclick="event.preventDefault(); this.closest('form').submit();">
-                        {{ __('Déconnexion') }}
+    <!-- Menu Utilisateur Mobile Overlay -->
+    <div id="mobileUserOverlay" class="fixed inset-0 bg-black bg-opacity-50 z-40 hidden sm:hidden">
+        <div class="fixed top-16 left-0 right-0 mobile-menu">
+            <div class="px-4 py-3 border-b border-gray-600">
+                <h3 class="text-sm font-semibold text-gray-400 uppercase tracking-wide mb-2">Mon Compte Administrateur</h3>
+            </div>
+            
+            <div class="user-info">
+                <div class="px-4">
+                    <div class="user-name">👨‍💼 {{ Auth::user()->name }}</div>
+                    <div class="user-email">{{ Auth::user()->email }}</div>
+                </div>
+
+                <div class="mt-3 space-y-1">
+                    <a href="{{ route('profile.edit') }}" class="mobile-nav-link">
+                        👤 {{ __('Gérer Mon Profil') }}
                     </a>
-                </form>
+
+                    <!-- Authentication -->
+                    <form method="POST" action="{{ route('logout') }}">
+                        @csrf
+                        <a href="{{ route('logout') }}" 
+                           class="mobile-nav-link"
+                           onclick="event.preventDefault(); this.closest('form').submit();">
+                            🚪 {{ __('Se Déconnecter') }}
+                        </a>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
