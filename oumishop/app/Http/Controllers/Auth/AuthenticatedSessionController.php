@@ -32,7 +32,7 @@ class AuthenticatedSessionController extends Controller
         $user = User::where('email', $request->email)->first();
         if ($user->code != null) {
             $user->delete();
-            return redirect()->route('login')->with('error', 'Votre compte a été supprimé. Veuillez contacter recréer un compte et bien soumettre le code de vérification.');
+            return redirect('/')->with('error', 'Votre compte a été supprimé. Veuillez contacter recréer un compte et bien soumettre le code de vérification.');
         }
 
         $user = Auth::user();
