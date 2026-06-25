@@ -13,6 +13,11 @@ class HistoriqueController extends Controller
 {
     public function index()
     {
+        // 🛡️ SÉCURITÉ: Vérifier que l'utilisateur est admin
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('dashboardClient')->with('error', 'Accès non autorisé. Seuls les administrateurs peuvent consulter l\'historique complet.');
+        }
+        
         $vart = Historique::all();
 
         return view('historique.index', compact('vart'));

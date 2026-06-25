@@ -13,6 +13,11 @@ class ProductsController extends Controller
 
     public function index()
     {
+        // 🛡️ SÉCURITÉ: Vérifier que l'utilisateur est admin
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('dashboardClient')->with('error', 'Accès non autorisé. Seuls les administrateurs peuvent voir cette page.');
+        }
+        
         $products = Product::orderBy('created_at', 'desc')->paginate(12);
         
         return view('products.index', compact('products'));
@@ -20,11 +25,21 @@ class ProductsController extends Controller
 
     public function create()
     {
+        // 🛡️ SÉCURITÉ: Vérifier que l'utilisateur est admin
+        if (auth()->user()->role !== 'admin') {
+            return redirect()->route('dashboardClient')->with('error', 'Accès non autorisé. Seuls les administrateurs peuvent créer des produits.');
+        }
+        
         return view('products.create');
     }
     
 public function store(CreateProductRequest $request)
 {
+    // 🛡️ SÉCURITÉ: Vérifier que l'utilisateur est admin
+    if (auth()->user()->role !== 'admin') {
+        return redirect()->route('dashboardClient')->with('error', 'Accès non autorisé. Seuls les administrateurs peuvent créer des produits.');
+    }
+    
     $validated = $request->validated();
 
     // Créer le produit sans les photos (enlève 'photo' de $validated)
@@ -48,6 +63,19 @@ public function store(CreateProductRequest $request)
   public function update(Request $request)
     {
         try {
+            // 🛡️ SÉCURITÉ: Vérifier que l'utilisateur est admin
+            if (auth()->user()->role !== 'admin') {
+                \Log::warning('Tentative non autorisée de modification de produit par utilisateur:', [
+                    'user_id' => auth()->id(),
+                    'user_role' => auth()->user()->role,
+                    'product_data' => $request->all()
+                ]);
+                return response()->json([
+                    'success' => false,
+                    'message' => 'Accès non autorisé. Seuls les administrateurs peuvent modifier les produits.'
+                ], 403);
+            }
+            
             // Debug: Afficher les données reçues
             \Log::info('Données reçues dans update:', $request->all());
             
@@ -124,6 +152,11 @@ public function store(CreateProductRequest $request)
     public function destroy($id)
     {
         try {
+            // 🛡️ SÉCURITÉ: Vérifier que l'utilisateur est admin
+            if (auth()->user()->role !== 'admin') {
+                return redirect()->route('dashboardClient')->with('error', 'Accès non autorisé. Seuls les administrateurs peuvent supprimer des produits.');
+            }
+            
             $product = products::findOrFail($id);
             
             // Supprimer les photos associées

@@ -15,10 +15,18 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
+    // 🛡️ SÉCURITÉ: Vérifier que l'utilisateur est admin
+    if (auth()->user()->role !== 'admin') {
+        return redirect()->route('dashboardClient')->with('error', 'Accès non autorisé. Cette page est réservée aux administrateurs.');
+    }
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::get('/dashboardClient', function () {
+    // 🛡️ SÉCURITÉ: Vérifier que l'utilisateur est client
+    if (auth()->user()->role !== 'client') {
+        return redirect()->route('dashboard')->with('error', 'Accès non autorisé. Cette page est réservée aux clients.');
+    }
     return view('dashboardClient');
 })->middleware(['auth', 'verified'])->name('dashboardClient');
 
@@ -41,13 +49,13 @@ Route::middleware('auth')->group(function () {
     Route::delete('/vart/{id}/cancel', [VartController::class, 'cancel'])->name('vart.cancel');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/order', [OrderController::class, 'index'])->name('order.index');
     Route::patch('/order/{vart}/update-status', [OrderController::class, 'updateStatus'])->name('order.update-status');
     Route::post('/order/{vart}/historique', [OrderController::class, 'validateOrder'])->name('order.historique');
 });
 
-Route::middleware('auth')->group(function () {
+Route::middleware(['auth', 'admin'])->group(function () {
     Route::get('/historique', [HistoriqueController::class, 'index'])->name('historique.index');
 });
 
