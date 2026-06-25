@@ -42,20 +42,11 @@
             }
 
             .auth-buttons {
+                position: absolute;
+                top: 1rem;
+                right: 2rem;
                 display: flex;
-                justify-content: center;
                 gap: 1rem;
-                margin-top: 2rem;
-                flex-wrap: wrap;
-            }
-            
-            @media (min-width: 768px) {
-                .auth-buttons {
-                    position: absolute;
-                    top: 1rem;
-                    right: 2rem;
-                    margin-top: 0;
-                }
             }
 
             .btn-auth {
@@ -109,7 +100,7 @@
             
             .product-image {
                 width: 100%;
-                height: 200px;
+                height: 250px;
                 object-fit: cover;
                 transition: transform 0.3s ease;
             }
@@ -119,32 +110,32 @@
             }
             
             .product-info {
-                padding: 1rem;
+                padding: 1.5rem;
                 overflow: hidden;
             }
             
             .product-name {
                 font-family: 'Playfair Display', serif;
-                font-size: 1.1rem;
+                font-size: 1.25rem;
                 font-weight: 600;
                 color: #1a1a1a;
-                margin-bottom: 0.3rem;
-                line-height: 1.2;
+                margin-bottom: 0.5rem;
+                line-height: 1.3;
             }
             
             .product-price {
                 font-family: 'Montserrat', sans-serif;
-                font-size: 1.3rem;
+                font-size: 1.5rem;
                 font-weight: 700;
                 color: #d4af37;
-                margin-bottom: 0.3rem;
+                margin-bottom: 0.5rem;
             }
             
             .product-stock {
                 font-family: 'Montserrat', sans-serif;
                 font-size: 0.875rem;
                 color: #666;
-                margin-bottom: 0.5rem;
+                margin-bottom: 1rem;
             }
             
             .btn-luxury {
@@ -220,89 +211,18 @@
                 border-color: #d4af37;
                 color: white;
             }
-
-            /* Responsive mobile pour afficher 2 produits par ligne */
-            @media (max-width: 768px) {
-                .grid {
-                    display: grid !important;
-                    grid-template-columns: repeat(2, 1fr) !important;
-                    gap: 0.75rem !important;
-                }
-                
-                .product-card {
-                    margin: 0;
-                    display: flex;
-                    flex-direction: column;
-                    height: auto;
-                }
-                
-                .product-image {
-                    height: 140px !important;
-                }
-                
-                .product-info {
-                    padding: 0.5rem !important;
-                    flex-grow: 1;
-                    display: flex;
-                    flex-direction: column;
-                }
-                
-                .product-name {
-                    font-size: 0.95rem !important;
-                    margin-bottom: 0.25rem !important;
-                }
-                
-                .product-price {
-                    font-size: 1.1rem !important;
-                    margin-bottom: 0.25rem !important;
-                }
-                
-                .product-stock {
-                    font-size: 0.8rem !important;
-                    margin-bottom: 0.4rem !important;
-                }
-                
-                .btn-luxury {
-                    padding: 0.4rem 0.8rem !important;
-                    font-size: 0.7rem !important;
-                    margin-top: auto;
-                }
-            }
-
-            @media (max-width: 480px) {
-                .grid {
-                    grid-template-columns: repeat(2, 1fr) !important;
-                    gap: 0.5rem !important;
-                }
-                
-                .product-image {
-                    height: 120px !important;
-                }
-                
-                .product-info {
-                    padding: 0.4rem !important;
-                }
-                
-                .product-name {
-                    font-size: 0.9rem !important;
-                }
-                
-                .product-price {
-                    font-size: 1rem !important;
-                }
-            }
         </style>
     </head>
-    <body class="min-h-screen bg-black">
+    <body class="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
         <div class="luxury-header">
             <div class="auth-buttons">
                 @if (Route::has('login'))
                     @auth
                         <a href="{{ url('/dashboardClient') }}" class="btn-auth">Dashboard</a>
                     @else
-                        <a href="{{ route('login') }}" class="btn-auth btn-auth-secondary">Se Connecter</a>
+                        <a href="{{ route('login') }}" class="btn-auth btn-auth-secondary">Se connecter</a>
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="btn-auth">Créer un Compte</a>
+                            <a href="{{ route('register') }}" class="btn-auth">S'inscrire</a>
                         @endif
                     @endauth
                 @endif
